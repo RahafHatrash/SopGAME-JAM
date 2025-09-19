@@ -75,7 +75,7 @@ public class CloudPlatform : MonoBehaviour
         
     }
     
-    void LiftPlatform()
+    public void LiftPlatform()
     {
         // Stop any current movement
         StopAllCoroutines();
@@ -86,7 +86,7 @@ public class CloudPlatform : MonoBehaviour
         StartCoroutine(MoveToPosition(targetPosition));
     }
     
-    void DropPlatform()
+    public void DropPlatform()
     {
         // Stop any current movement
         StopAllCoroutines();

@@ -80,7 +80,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 9.72, y: 7.59, z: -0.03129928}
-  m_LocalScale: {x: 3.3256695, y: 4.7984943, z: 6.655332}
+  m_LocalScale: {x: 1.356208, y: 1.956826, z: 2.7140443}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3433073095738983109}
@@ -280,7 +280,6 @@ MonoBehaviour:
     m_RotationOrder: 4
   damageToPlayer: 1
   baseXP: 5
-  groundCheck: {fileID: 0}
   groundTag: Ground
   playerTag: Player
   enemyTag: Enemy

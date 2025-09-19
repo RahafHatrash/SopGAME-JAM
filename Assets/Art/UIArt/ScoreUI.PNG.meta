@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 7f4454698194e6e459d102de38a65c7a
+guid: d164f90576230314fa7023d4ee4eeba9
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2343745459134936781
-    second: JumpCharacter_0
+      213: -4225201989587657184
+    second: ScoreUI_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,30 +96,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: JumpCharacter_0
+      name: ScoreUI_0
       rect:
         serializedVersion: 2
-        x: 748
-        y: 288
-        width: 940
-        height: 1184
+        x: 186
+        y: 187
+        width: 396
+        height: 162
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: dc63cafc318a68020800000000000000
-      internalID: 2343745459134936781
+      spriteID: 02e9a523d211d55c0800000000000000
+      internalID: -4225201989587657184
       vertices: []
       indices: 
       edges: []
@@ -148,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      JumpCharacter_0: 2343745459134936781
+      ScoreUI_0: -4225201989587657184
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

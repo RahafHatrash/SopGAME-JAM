@@ -11,9 +11,9 @@ public class SlimePlatform : MonoBehaviour
         PlayerController player = collision.gameObject.GetComponent<PlayerController>();
         if (player != null)
         {
-            // Apply slime effects - reduce speed only
-            // Jump force is now handled automatically in PlayerController based on platform type
-            player.moveSpeed *= speedReduction;
+            // Slime platform only affects jump force, not movement speed
+            // Movement speed should remain consistent throughout the scene
+            // Jump force is handled automatically in PlayerController based on platform type
         }
     }
     
@@ -22,9 +22,8 @@ public class SlimePlatform : MonoBehaviour
         PlayerController player = collision.gameObject.GetComponent<PlayerController>();
         if (player != null)
         {
-            // Restore original values
-            player.moveSpeed = 5f; // Restore default moveSpeed
-            // Jump force is now handled automatically in PlayerController based on platform type
+            // No speed changes needed - player should maintain consistent speed
+            // Jump force is handled automatically in PlayerController based on platform type
         }
     }
     

@@ -55,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
                 foreach(CloudPlatform platform in allCloudPlatforms)
                 {
                     if(platform != null && platform != currentCloudPlatform)
-                        platform.RaisePlatform();
+                        platform.LiftPlatform();
                 }
                 Debug.Log("Raised all other cloud platforms!");
             }
@@ -75,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
                 foreach(CloudPlatform platform in allCloudPlatforms)
                 {
                     if(platform != null && platform != currentCloudPlatform)
-                        platform.LowerPlatform();
+                        platform.DropPlatform();
                 }
                 Debug.Log("Lowered all other cloud platforms!");
             }

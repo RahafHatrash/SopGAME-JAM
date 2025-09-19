@@ -148,8 +148,8 @@ public class PlayerController : MonoBehaviour
             // Check if player is actively controlling movement
             if (Mathf.Abs(horizontalInput) > 0.1f)
             {
-                // Player input overrides auto movement completely
-                targetVelocityX = horizontalInput * manualMovementSpeed;
+                // Player input uses autoMovementSpeed to maintain slow speed in sewer scene
+                targetVelocityX = horizontalInput * autoMovementSpeed;
                 
                 // Update last movement direction
                 lastMovementDirection = Mathf.Sign(horizontalInput);
