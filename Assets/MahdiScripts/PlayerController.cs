@@ -4,7 +4,8 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
-    public float jumpForce = 10f;
+    public float normalJumpForce = 4f;
+    public float slimeJumpForce = 2f;
     
     [Header("Animation")]
     public Animator animator;
@@ -128,11 +129,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         
-        // Reset jump state when grounded (for better control)
-        if (isGrounded && animator != null)
-        {
-            animator.SetBool("IsJumping", false);
-        }
+        // No need to reset jump state - using triggers
         
         // Debug ground detection
         if (wasGrounded != isGrounded)
@@ -177,14 +174,27 @@ public class PlayerController : MonoBehaviour
     
     void Jump()
     {
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+        // Determine jump force based on platform type
+        float currentJumpForce = normalJumpForce; // Default jump force
+        
+        // Check if standing on slime platform
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, groundCheckRadius);
+        foreach (Collider2D col in colliders)
+        {
+            if (col.CompareTag("SlimePlatform"))
+            {
+                currentJumpForce = slimeJumpForce;
+                break;
+            }
+        }
+        
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, currentJumpForce);
         
         // Trigger Jump animation when jumping
         if (animator != null)
         {
             animator.SetTrigger("Jump");
-            animator.SetBool("IsJumping", true);
-            Debug.Log("Jump animation triggered");
+            Debug.Log($"Jump animation triggered with force: {currentJumpForce}");
         }
     }
     
