@@ -2,54 +2,27 @@ using UnityEngine;
 
 public class SnowPlatform : MonoBehaviour
 {
-    [Header("Snow Platform Settings")]
-    public float forceMultiplier = 1.5f;
-    public float dragMultiplier = 0.3f;
-    
-    [Header("Layer Detection")]
-    public LayerMask playerLayer = 256; // Player layer (layer 8)
+    // Snow platform enables momentum movement for sliding effect
     
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (IsInLayerMask(collision.gameObject, playerLayer))
+        // Try to get PlayerController first (more reliable than layer checking)
+        PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+        if (player != null)
         {
-            PlayerController player = collision.gameObject.GetComponent<PlayerController>();
-            if (player != null)
-            {
-                // Enable force-based physics
-                player.useForcePhysics = true;
-                
-                // Store original values
-                player.originalMoveForce = player.moveForce;
-                player.originalDrag = player.drag;
-                
-                // Apply snow effects - reduce force and drag
-                player.moveForce *= forceMultiplier;
-                player.drag *= dragMultiplier;
-            }
+            // Enable momentum movement for snow platforms
+            player.useMomentumMovement = true;
         }
     }
     
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (IsInLayerMask(collision.gameObject, playerLayer))
+        PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+        if (player != null)
         {
-            PlayerController player = collision.gameObject.GetComponent<PlayerController>();
-            if (player != null)
-            {
-                // Disable force-based physics
-                player.useForcePhysics = false;
-                
-                // Restore original values
-                player.moveForce = player.originalMoveForce;
-                player.drag = player.originalDrag;
-            }
+            // Disable momentum movement
+            player.useMomentumMovement = false;
         }
-    }
-    
-    private bool IsInLayerMask(GameObject obj, LayerMask layerMask)
-    {
-        return (layerMask.value & (1 << obj.layer)) != 0;
     }
     
     [ContextMenu("Create Snow Platform")]

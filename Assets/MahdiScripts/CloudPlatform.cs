@@ -7,8 +7,6 @@ public class CloudPlatform : MonoBehaviour
     public float dropAmount = 5f;
     public float moveSpeed = 2f;
     
-    [Header("Layer Detection")]
-    public LayerMask playerLayer = 256; // Player layer (layer 8)
     
     private Rigidbody2D platformRb;
     private Vector3 currentPosition;
@@ -59,7 +57,6 @@ public class CloudPlatform : MonoBehaviour
             }
         }
         
-        Debug.Log("All cloud platforms lifting (except current one)!");
     }
     
     void DropAllCloudPlatforms()
@@ -76,7 +73,6 @@ public class CloudPlatform : MonoBehaviour
             }
         }
         
-        Debug.Log("All cloud platforms dropping (except current one)!");
     }
     
     void LiftPlatform()
@@ -88,7 +84,6 @@ public class CloudPlatform : MonoBehaviour
         currentPosition = transform.position;
         Vector3 targetPosition = currentPosition + Vector3.up * liftAmount;
         StartCoroutine(MoveToPosition(targetPosition));
-        Debug.Log("Cloud platform lifting by " + liftAmount + " units!");
     }
     
     void DropPlatform()
@@ -100,7 +95,6 @@ public class CloudPlatform : MonoBehaviour
         currentPosition = transform.position;
         Vector3 targetPosition = currentPosition - Vector3.up * dropAmount;
         StartCoroutine(MoveToPosition(targetPosition));
-        Debug.Log("Cloud platform dropping by " + dropAmount + " units!");
     }
     
     System.Collections.IEnumerator MoveToPosition(Vector3 targetPosition)
@@ -119,28 +113,24 @@ public class CloudPlatform : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (IsInLayerMask(other.gameObject, playerLayer))
+        PlayerController player = other.GetComponent<PlayerController>();
+        if (player != null)
         {
             playerOnPlatform = true;
-            playerController = other.GetComponent<PlayerController>();
-            Debug.Log("Player entered cloud platform");
+            playerController = player;
         }
     }
     
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (IsInLayerMask(other.gameObject, playerLayer))
+        PlayerController player = other.GetComponent<PlayerController>();
+        if (player != null)
         {
             playerOnPlatform = false;
             playerController = null;
-            Debug.Log("Player left cloud platform");
         }
     }
     
-    private bool IsInLayerMask(GameObject obj, LayerMask layerMask)
-    {
-        return (layerMask.value & (1 << obj.layer)) != 0;
-    }
     
     [ContextMenu("Create Cloud Platform")]
     public void CreateCloudPlatform()
@@ -172,7 +162,6 @@ public class CloudPlatform : MonoBehaviour
         platform.transform.position = new Vector3(0, 0, 0);
         platform.transform.localScale = new Vector3(3, 0.5f, 1);
         
-        Debug.Log("Cloud platform created!");
     }
     
     private Sprite CreateCloudSprite()

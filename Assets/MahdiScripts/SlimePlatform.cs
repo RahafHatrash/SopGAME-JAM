@@ -6,45 +6,28 @@ public class SlimePlatform : MonoBehaviour
     public float speedReduction = 0.3f;
     public float jumpReduction = 0.7f;
     
-    [Header("Layer Detection")]
-    public LayerMask playerLayer = 256; // Player layer (layer 8)
-    
-    private PlayerController playerController;
-    private float originalMoveSpeed;
-    private float originalJumpForce;
-    
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (IsInLayerMask(collision.gameObject, playerLayer))
+        PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+        if (player != null)
         {
-            playerController = collision.gameObject.GetComponent<PlayerController>();
-            if (playerController != null)
-            {
-                // Store original values
-                originalMoveSpeed = playerController.moveSpeed;
-                originalJumpForce = playerController.jumpForce;
-                
-                // Apply slime effects - reduce speed and jump
-                playerController.moveSpeed *= speedReduction;
-                playerController.jumpForce *= jumpReduction;
-            }
+            // Apply slime effects - reduce speed and jump
+            player.moveSpeed *= speedReduction;
+            player.jumpForce *= jumpReduction;
         }
     }
     
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (IsInLayerMask(collision.gameObject, playerLayer) && playerController != null)
+        PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+        if (player != null)
         {
             // Restore original values
-            playerController.moveSpeed = originalMoveSpeed;
-            playerController.jumpForce = originalJumpForce;
+            player.moveSpeed = 5f; // Restore default moveSpeed
+            player.jumpForce = 10f; // Restore default jumpForce
         }
     }
     
-    private bool IsInLayerMask(GameObject obj, LayerMask layerMask)
-    {
-        return (layerMask.value & (1 << obj.layer)) != 0;
-    }
     
     [ContextMenu("Create Slime Platform")]
     public void CreateSlimePlatform()
