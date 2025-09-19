@@ -6,6 +6,12 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 5f;
     public float jumpForce = 10f;
     
+    [Header("Animation")]
+    public Animator animator;
+    
+    [Header("Sprite Flipping")]
+    public SpriteRenderer spriteRenderer;
+    
     [Header("Momentum Movement")]
     public bool useMomentumMovement = false;
     [Range(0.5f, 5f)]
@@ -30,6 +36,18 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         
+        // Get Animator component if not assigned
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
+        
+        // Get SpriteRenderer component if not assigned
+        if (spriteRenderer == null)
+        {
+            spriteRenderer = GetComponent<SpriteRenderer>();
+        }
+        
         // Ensure we start with normal movement
         useMomentumMovement = false;
         
@@ -47,6 +65,25 @@ public class PlayerController : MonoBehaviour
     {
         // Get horizontal input
         horizontalInput = Input.GetAxis("Horizontal");
+        
+        // Set Walk animation - true when moving, false when not
+        if (animator != null)
+        {
+            animator.SetBool("Walk", Mathf.Abs(horizontalInput) > 0.1f);
+        }
+        
+        // Flip sprite based on movement direction
+        if (spriteRenderer != null)
+        {
+            if (horizontalInput > 0.1f) // Moving right
+            {
+                spriteRenderer.flipX = true;
+            }
+            else if (horizontalInput < -0.1f) // Moving left
+            {
+                spriteRenderer.flipX = false;
+            }
+        }
         
         // Jump input
         if (Input.GetKeyDown(KeyCode.Space))
@@ -89,6 +126,12 @@ public class PlayerController : MonoBehaviour
                 isGrounded = true;
                 break;
             }
+        }
+        
+        // Reset jump state when grounded (for better control)
+        if (isGrounded && animator != null)
+        {
+            animator.SetBool("IsJumping", false);
         }
         
         // Debug ground detection
@@ -135,6 +178,14 @@ public class PlayerController : MonoBehaviour
     void Jump()
     {
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+        
+        // Trigger Jump animation when jumping
+        if (animator != null)
+        {
+            animator.SetTrigger("Jump");
+            animator.SetBool("IsJumping", true);
+            Debug.Log("Jump animation triggered");
+        }
     }
     
     // Public method to reset physics to normal state
