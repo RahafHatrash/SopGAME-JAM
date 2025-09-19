@@ -5,7 +5,8 @@ public class EnemySpawner : MonoBehaviour
 {
     [Header("Spawn Settings")]
     public GameObject enemyPrefab; // Drag your enemy prefab here in Inspector
-    public float spawnInterval = 2f; // Time between spawns
+    public float spawnInterval = 2f; // Base time between spawns
+    public float spawnIntervalRandomness = 0.5f; // Random variation added to spawn interval
     public int maxEnemiesPerSpawnPoint = 3; // Maximum enemies per spawn point
     
     [Header("Spawn Points")]
@@ -48,7 +49,12 @@ public class EnemySpawner : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(spawnInterval);
+            // Calculate random spawn interval
+            float randomInterval = spawnInterval + Random.Range(-spawnIntervalRandomness, spawnIntervalRandomness);
+            // Ensure minimum interval of 0.1 seconds
+            randomInterval = Mathf.Max(0.1f, randomInterval);
+            
+            yield return new WaitForSeconds(randomInterval);
             
             // Check if any spawn point has room for more enemies
             if (HasAvailableSpawnPoint())

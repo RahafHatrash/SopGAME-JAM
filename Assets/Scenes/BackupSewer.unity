@@ -314,7 +314,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5195308120895432841, guid: 3ff435cdf65ea1648a22e61792ce3548, type: 3}
       propertyPath: m_Size.y
-      value: 0.2212196
+      value: 0.21206146
       objectReference: {fileID: 0}
     - target: {fileID: 5195308120895432841, guid: 3ff435cdf65ea1648a22e61792ce3548, type: 3}
       propertyPath: m_Offset.x
@@ -322,7 +322,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5195308120895432841, guid: 3ff435cdf65ea1648a22e61792ce3548, type: 3}
       propertyPath: m_Offset.y
-      value: 0.12851828
+      value: 0.1239392
       objectReference: {fileID: 0}
     - target: {fileID: 9052080880074836422, guid: 3ff435cdf65ea1648a22e61792ce3548, type: 3}
       propertyPath: m_LocalScale.x
@@ -577,7 +577,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9052080880074836422, guid: 3ff435cdf65ea1648a22e61792ce3548, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.57
+      value: 1.91
       objectReference: {fileID: 0}
     - target: {fileID: 9052080880074836422, guid: 3ff435cdf65ea1648a22e61792ce3548, type: 3}
       propertyPath: m_LocalPosition.y
@@ -710,14 +710,6 @@ PrefabInstance:
     - target: {fileID: 2023391864692872508, guid: 3ff435cdf65ea1648a22e61792ce3548, type: 3}
       propertyPath: m_Name
       value: SlimePlatform (3)
-      objectReference: {fileID: 0}
-    - target: {fileID: 5195308120895432841, guid: 3ff435cdf65ea1648a22e61792ce3548, type: 3}
-      propertyPath: m_Size.y
-      value: 0.21202913
-      objectReference: {fileID: 0}
-    - target: {fileID: 5195308120895432841, guid: 3ff435cdf65ea1648a22e61792ce3548, type: 3}
-      propertyPath: m_Offset.y
-      value: 0.12392303
       objectReference: {fileID: 0}
     - target: {fileID: 9052080880074836422, guid: 3ff435cdf65ea1648a22e61792ce3548, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1134,7 +1126,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9052080880074836422, guid: 3ff435cdf65ea1648a22e61792ce3548, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.61
+      value: -1.98
       objectReference: {fileID: 0}
     - target: {fileID: 9052080880074836422, guid: 3ff435cdf65ea1648a22e61792ce3548, type: 3}
       propertyPath: m_LocalPosition.y
