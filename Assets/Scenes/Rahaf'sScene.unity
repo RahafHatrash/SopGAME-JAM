@@ -478,7 +478,6 @@ GameObject:
   - component: {fileID: 1499592195}
   - component: {fileID: 1499592194}
   - component: {fileID: 1499592193}
-  - component: {fileID: 1499592192}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -486,34 +485,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1499592192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1499592191}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 975b05e95221e844ebec5cc9c812d83b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentAbility: 0
-  firePoint: {fileID: 1379475917}
-  bulletPrefab: {fileID: 4108615101778571626, guid: f34c6b573d896924ab8fc78e9fbffddb, type: 3}
-  bulletSpeed: 10
-  shootCooldown: 0.4
-  swordHitbox: {fileID: 1637812113}
-  swordActiveTime: 0.12
-  swordCooldown: 0.6
-  icePrefab: {fileID: 7314093734931484805, guid: b49d2d81336f20f40bcafa8839ec48bc, type: 3}
-  iceSpeed: 8
-  freezeTargetLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  freezeRange: 3
-  freezeDuration: 2
-  freezeCooldown: 1
 --- !u!61 &1499592193
 BoxCollider2D:
   m_ObjectHideFlags: 0

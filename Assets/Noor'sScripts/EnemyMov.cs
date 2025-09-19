@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class EnemyMov : MonoBehaviour
@@ -7,7 +8,7 @@ public class EnemyMov : MonoBehaviour
     public float platformCheckDistance = 0.5f;
     
     [Header("Health Settings")]
-    public int maxHealth = 2;
+    public int maxHealth = 3;  // يحتاج 3 طلقات للموت
     private int currentHealth;
     
     [Header("Death Animation")]
@@ -27,6 +28,7 @@ public class EnemyMov : MonoBehaviour
     private ItemDropper itemDropper;
     private bool movingRight = true;
     private bool isDead = false;
+    private bool isFrozen = false;
     
     // Ground check visualization variables
     private bool isGroundedAhead = false;
@@ -83,8 +85,8 @@ public class EnemyMov : MonoBehaviour
     
     void Update()
     {
-        // Don't update if dead
-        if (isDead) return;
+        // Don't update if dead or frozen
+        if (isDead || isFrozen) return;
         
         // Check if we should turn around
         CheckForTurnAround();
@@ -143,11 +145,13 @@ public class EnemyMov : MonoBehaviour
     {
         if (isDead) return; // Don't take damage if already dead
         
+        Debug.Log($"[DEBUG] Enemy {gameObject.name} - Before damage: {currentHealth}/{maxHealth}");
         currentHealth -= damage;
-        Debug.Log($"Enemy took {damage} damage. Health: {currentHealth}/{maxHealth}");
+        Debug.Log($"[DEBUG] Enemy {gameObject.name} - After {damage} damage: {currentHealth}/{maxHealth}");
         
         if (currentHealth <= 0)
         {
+            Debug.Log($"[DEBUG] Enemy {gameObject.name} - DIED! Health: {currentHealth}");
             Die();
         }
     }
@@ -314,5 +318,30 @@ public class EnemyMov : MonoBehaviour
         bool isGrounded = Application.isPlaying ? isGroundedAhead : false;
         Gizmos.color = isGrounded ? Color.green : Color.red;
         Gizmos.DrawWireSphere(groundCheckPos, 0.1f);
+    }
+    
+    // Freeze function for ice ability
+    public void Freeze(float duration)
+    {
+        if (isDead) return;
+        
+        isFrozen = true;
+        Debug.Log("Enemy frozen for " + duration + " seconds!");
+        
+        // Stop movement
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
+        
+        // Start unfreeze coroutine
+        StartCoroutine(UnfreezeAfter(duration));
+    }
+    
+    private System.Collections.IEnumerator UnfreezeAfter(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        isFrozen = false;
+        Debug.Log("Enemy unfrozen!");
     }
 }

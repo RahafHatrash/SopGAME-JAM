@@ -180,7 +180,7 @@ MonoBehaviour:
   moveSpeed: 3
   flightHeight: 2
   screenEdgeBuffer: 1
-  maxHealth: 2
+  maxHealth: 3
   deathAnimationDuration: 1
   deathScaleCurve:
     serializedVersion: 2

@@ -2,17 +2,32 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public int damage = 1;
+    public int damage = 1;       // كل رصاصة تنقص 1 دم
+    public float lifeTime = 2f;  // عمر الرصاصة قبل تختفي
 
-    private void OnCollisionEnter2D(Collision2D collision)
-{
-    EnemyHealth enemy = collision.collider.GetComponent<EnemyHealth>();
-    if (enemy != null)
+    private void Start()
     {
-        enemy.TakeDamage(1);
+        Destroy(gameObject, lifeTime);
     }
 
-    Destroy(gameObject); // الرصاصة تختفي بعد الاصطدام
-}
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // جرب EnemyHealth أولاً (النظام الجديد)
+        EnemyHealth enemyHealth = collision.GetComponent<EnemyHealth>();
+        if (enemyHealth != null)
+        {
+            enemyHealth.TakeHit(); // كل طلقة = زيادة عداد الضربات
+            Destroy(gameObject); // تدمر الرصاصة بعد الضربة
+            return;
+        }
+        
+        // إذا لم يجد EnemyHealth، جرب EnemyMov (النظام القديم)
+        EnemyMov enemy = collision.GetComponent<EnemyMov>();
+        if (enemy != null)
+        {
+            enemy.TakeDamage(damage); // استخدم TakeDamage بدلاً من TakeHit
+            Destroy(gameObject); // تدمر الرصاصة بعد الضربة
+        }
+    }
 
 }

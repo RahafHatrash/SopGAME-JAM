@@ -11,6 +11,11 @@ public class EnemyHealth : MonoBehaviour
     public int maxHealth = 3;    // Health كامل
     private int currentHealth;
 
+    [Header("Death Animation")]
+    public float deathAnimationDuration = 1f;
+    public AnimationCurve deathScaleCurve = AnimationCurve.EaseInOut(0, 1, 1, 0);
+    public AnimationCurve deathRotationCurve = AnimationCurve.EaseInOut(0, 0, 1, 360);
+
     private bool isDead = false;
 
     public Animator animator;    // Optional: الأنيميشن جاهز
@@ -69,22 +74,34 @@ public class EnemyHealth : MonoBehaviour
         // Optional: Drop item
         DropRandomItem();
 
-        // Optional: Death animation
-        if (animator != null)
-            animator.SetTrigger("Die");
-        else
-            Destroy(gameObject);
-
-        // إذا فيه Coroutine
+        // Start death animation (يقلص ويدور)
         StartCoroutine(DeathAnimation());
     }
 
-    // --- مثال Coroutine لو فيه أنيميشن للموت
+    // --- أنيميشن الموت (يقلص ويدور)
     private IEnumerator DeathAnimation()
     {
-        // مدة الانيميشن
-        yield return new WaitForSeconds(1f);
-
+        float elapsedTime = 0f;
+        Vector3 originalScale = transform.localScale;
+        float originalRotation = transform.rotation.eulerAngles.z;
+        
+        while (elapsedTime < deathAnimationDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float progress = elapsedTime / deathAnimationDuration;
+            
+            // Apply scale animation (يقلص)
+            float scaleMultiplier = deathScaleCurve.Evaluate(progress);
+            transform.localScale = originalScale * scaleMultiplier;
+            
+            // Apply rotation animation (يدور)
+            float rotationAmount = deathRotationCurve.Evaluate(progress);
+            transform.rotation = Quaternion.Euler(0, 0, originalRotation + rotationAmount);
+            
+            yield return null;
+        }
+        
+        // Destroy the enemy after animation
         Destroy(gameObject);
     }
 
