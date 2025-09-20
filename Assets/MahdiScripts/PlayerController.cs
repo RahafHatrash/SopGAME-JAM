@@ -111,6 +111,12 @@ public class PlayerController : MonoBehaviour
         {
             useMomentumMovement = !useMomentumMovement;
         }
+        
+        // Hit input (Left Mouse Button or X key)
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.X))
+        {
+            Hit();
+        }
     }
     
     void FixedUpdate()
@@ -195,6 +201,16 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetTrigger("Jump");
             Debug.Log($"Jump animation triggered with force: {currentJumpForce}");
+        }
+    }
+    
+    void Hit()
+    {
+        // Trigger Hit animation
+        if (animator != null)
+        {
+            animator.SetTrigger("isHitting");
+            Debug.Log("Hit animation triggered");
         }
     }
     

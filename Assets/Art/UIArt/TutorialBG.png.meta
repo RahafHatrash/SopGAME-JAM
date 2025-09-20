@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-guid: e17d97f39a8127743ad6eaa27ca57d72
+guid: df47a9ef90c4d3c4d89ff07d2337b8b5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6125806544329202757
-    second: Untitled_Artwork00_0
-  - first:
-      213: 1731823620760954680
-    second: Untitled_Artwork00_1
-  - first:
-      213: -4116743536448316207
-    second: Untitled_Artwork00_2
-  - first:
-      213: 8566213422409197921
-    second: Untitled_Artwork00_3
+      213: 2621173034231474869
+    second: TutorialBG_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -106,33 +97,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
     buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WindowsStoreApps
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -148,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Untitled_Artwork00_0
+      name: TutorialBG_0
       rect:
         serializedVersion: 2
-        x: 311
-        y: 256
-        width: 651
-        height: 1229
+        x: 0
+        y: 0
+        width: 2388
+        height: 1668
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -163,74 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 54c518d989c330550800000000000000
-      internalID: 6125806544329202757
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Untitled_Artwork00_1
-      rect:
-        serializedVersion: 2
-        x: 1024
-        y: 786
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 8376611586ca80810800000000000000
-      internalID: 1731823620760954680
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Untitled_Artwork00_2
-      rect:
-        serializedVersion: 2
-        x: 1280
-        y: 256
-        width: 624
-        height: 1212
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1dcdc96a0936ed6c0800000000000000
-      internalID: -4116743536448316207
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Untitled_Artwork00_3
-      rect:
-        serializedVersion: 2
-        x: 1966
-        y: 769
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 16922e0d8bd41e670800000000000000
-      internalID: 8566213422409197921
+      spriteID: 5ba2330bcf6406420800000000000000
+      internalID: 2621173034231474869
       vertices: []
       indices: 
       edges: []
@@ -248,11 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Untitled_Artwork00_0: 6125806544329202757
-      Untitled_Artwork00_1: 1731823620760954680
-      Untitled_Artwork00_2: -4116743536448316207
-      Untitled_Artwork00_3: 8566213422409197921
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
