@@ -13,6 +13,17 @@ public class DieSceneUI : MonoBehaviour
     {
         Debug.Log("[DieSceneUI] Starting DieSceneUI...");
         
+        // Play death sound when death scene loads
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayDeathSound();
+            Debug.Log("[DieSceneUI] Death sound played");
+        }
+        else
+        {
+            Debug.LogWarning("[DieSceneUI] AudioManager.Instance is null - cannot play death sound");
+        }
+        
         // Get current score
         int finalScore = PlayerPrefs.GetInt("CurrentScore", 0);
         Debug.Log($"[DieSceneUI] Current Score from PlayerPrefs: {finalScore}");

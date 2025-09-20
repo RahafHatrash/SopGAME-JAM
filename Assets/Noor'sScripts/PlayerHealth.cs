@@ -166,6 +166,12 @@ public class PlayerHealth : MonoBehaviour
         isDead = true;
         Debug.Log("💀 PLAYER DIED! Health reached 0 - Game Over! 💀");
         
+        // Stop movement sounds immediately
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.StopMovementSounds();
+        }
+        
         // Stop character movement
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         if (rb != null)
@@ -184,6 +190,10 @@ public class PlayerHealth : MonoBehaviour
         
         // Notify systems
         OnCharacterDied?.Invoke();
+        
+        // Destroy the player GameObject
+        Debug.Log("[PlayerHealth] Destroying player GameObject");
+        Destroy(gameObject);
         
         // Go to death scene immediately
         Debug.Log($"[PlayerHealth] Loading death scene immediately: {deathSceneName}");

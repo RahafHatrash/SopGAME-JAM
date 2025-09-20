@@ -75,6 +75,13 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("Walk", Mathf.Abs(horizontalInput) > 0.1f);
         }
+
+        // Update AudioManager with movement state for footstep sounds
+        if (AudioManager.Instance != null)
+        {
+            bool isMoving = Mathf.Abs(horizontalInput) > 0.1f && isGrounded;
+            AudioManager.Instance.SetPlayerMoving(isMoving);
+        }
         
         // Flip sprite based on movement direction
         if (spriteRenderer != null)
@@ -205,6 +212,12 @@ public class PlayerController : MonoBehaviour
             animator.SetTrigger("Jump");
             Debug.Log($"Jump animation triggered with force: {currentJumpForce}");
         }
+
+        // Play jump sound
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayJumpSound();
+        }
     }
     
     void Hit()
@@ -214,6 +227,12 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetTrigger("isHitting");
             Debug.Log("Hit animation triggered");
+        }
+
+        // Play hit sound
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayHitSound();
         }
     }
     
@@ -279,6 +298,17 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Die"))
         {
             Debug.Log("[PlayerController] Player touched Die trigger - going to death scene!");
+            
+            // Stop movement sounds before scene transition
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.StopMovementSounds();
+            }
+            
+            // Destroy the player GameObject
+            Debug.Log("[PlayerController] Destroying player GameObject");
+            Destroy(gameObject);
+            
             SceneManager.LoadScene("DieScene");
         }
     }
@@ -292,6 +322,17 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Die"))
         {
             Debug.Log("[PlayerController] Player collided with Die trigger - going to death scene!");
+            
+            // Stop movement sounds before scene transition
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.StopMovementSounds();
+            }
+            
+            // Destroy the player GameObject
+            Debug.Log("[PlayerController] Destroying player GameObject");
+            Destroy(gameObject);
+            
             SceneManager.LoadScene("DieScene");
         }
     }

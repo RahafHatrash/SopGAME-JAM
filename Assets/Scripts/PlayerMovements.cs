@@ -43,10 +43,23 @@ public class PlayerMovement : MonoBehaviour
         // حركة يمين/يسار
         moveInput = Input.GetAxisRaw("Horizontal");
 
+        // Update AudioManager with movement state for footstep sounds
+        if (AudioManager.Instance != null)
+        {
+            bool isMoving = Mathf.Abs(moveInput) > 0.1f && isGrounded;
+            AudioManager.Instance.SetPlayerMoving(isMoving);
+        }
+
         // Jump - يعمل طبيعي في جميع السينات
         if(Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+
+            // Play jump sound
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlayJumpSound();
+            }
 
             // إذا كان اللاعب فوق cloud platform: ارفع باقي cloud platforms ماعدا اللي هو واقف فوقها
             // إذا كان فوق منصة عادية: Jump يعمل طبيعي بدون تأثير على cloud platforms

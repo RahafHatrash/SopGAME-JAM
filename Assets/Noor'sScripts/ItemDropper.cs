@@ -70,6 +70,12 @@ public class ItemPickup : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            // Play pickup sound
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlayPickupSound();
+            }
+
             if (isXP)
             {
                 // Add XP to score system

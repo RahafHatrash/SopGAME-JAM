@@ -160,6 +160,12 @@ public class PlayerAbilities : MonoBehaviour
 
     void ShootBullet()
     {
+        // Play shoot sound
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayShootSound();
+        }
+
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
         Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseWorld.z = 0;
