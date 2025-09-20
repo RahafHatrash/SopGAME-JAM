@@ -227,19 +227,16 @@ public class EnemyMov : MonoBehaviour
     
     void GiveXP(int xpAmount)
     {
-        // Automatically add XP to score system
-        // You can integrate with your score system here
-        Debug.Log($"Added {xpAmount} XP to score system!");
-        
-        // Example integration with a score manager:
-        // ScoreManager scoreManager = FindObjectOfType<ScoreManager>();
-        // if (scoreManager != null)
-        // {
-        //     scoreManager.AddXP(xpAmount);
-        // }
-        
-        // Or if you have a static score system:
-        // ScoreSystem.AddXP(xpAmount);
+        // Add XP to score system
+        ScoreUIManager scoreUI = FindFirstObjectByType<ScoreUIManager>();
+        if (scoreUI != null)
+        {
+            scoreUI.AddScore(xpAmount);
+        }
+        else
+        {
+            Debug.LogWarning("[EnemyMov] ScoreUIManager not found!");
+        }
     }
     
     void OnCollisionEnter2D(Collision2D collision)

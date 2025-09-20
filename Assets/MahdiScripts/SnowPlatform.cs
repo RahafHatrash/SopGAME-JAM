@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 public class SnowPlatform : MonoBehaviour
 {
     // Snow platform enables momentum movement for sliding effect

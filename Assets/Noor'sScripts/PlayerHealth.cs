@@ -179,6 +179,9 @@ public class PlayerHealth : MonoBehaviour
             playerController.enabled = false;
         }
         
+        // Score is already saved by ScoreUIManager
+        Debug.Log("[PlayerHealth] Player died - going to death scene");
+        
         // Notify systems
         OnCharacterDied?.Invoke();
         

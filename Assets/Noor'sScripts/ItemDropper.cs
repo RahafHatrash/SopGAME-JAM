@@ -75,12 +75,15 @@ public class ItemPickup : MonoBehaviour
                 // Add XP to score system
                 Debug.Log($"Player picked up double XP! Gained {xpAmount} XP!");
                 
-                // You can integrate with your score system here:
-                // ScoreManager scoreManager = FindObjectOfType<ScoreManager>();
-                // if (scoreManager != null)
-                // {
-                //     scoreManager.AddXP(xpAmount);
-                // }
+                ScoreUIManager scoreUI = FindFirstObjectByType<ScoreUIManager>();
+                if (scoreUI != null)
+                {
+                    scoreUI.AddScore(xpAmount);
+                }
+                else
+                {
+                    Debug.LogWarning("[ItemPickup] ScoreUIManager not found!");
+                }
             }
             else
             {
