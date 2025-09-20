@@ -184,10 +184,13 @@ public class FlyingSpawner : MonoBehaviour
             if (spawnPoints[i] != null)
             {
                 // Green if available, red if at max capacity
-                bool isAvailable = currentEnemyCountPerSpawnPoint != null && 
-                                 currentEnemyCountPerSpawnPoint[i] < maxEnemiesPerSpawnPoint;
-                Gizmos.color = isAvailable ? Color.green : Color.red;
+                bool isAvailable = true; // Default to available in editor
+                if (currentEnemyCountPerSpawnPoint != null && i < currentEnemyCountPerSpawnPoint.Length)
+                {
+                    isAvailable = currentEnemyCountPerSpawnPoint[i] < maxEnemiesPerSpawnPoint;
+                }
                 
+                Gizmos.color = isAvailable ? Color.green : Color.red;
                 Gizmos.DrawWireSphere(spawnPoints[i].position, 0.5f);
                 
                 // Draw a line from spawner to spawn point
@@ -195,7 +198,7 @@ public class FlyingSpawner : MonoBehaviour
                 Gizmos.DrawLine(transform.position, spawnPoints[i].position);
                 
                 // Draw enemy count above spawn point
-                if (currentEnemyCountPerSpawnPoint != null)
+                if (currentEnemyCountPerSpawnPoint != null && i < currentEnemyCountPerSpawnPoint.Length)
                 {
                     Vector3 labelPos = spawnPoints[i].position + Vector3.up * 1f;
                     #if UNITY_EDITOR
