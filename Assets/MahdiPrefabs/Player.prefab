@@ -227,19 +227,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentAbility: 0
-  firePoint: {fileID: 0}
-  bulletPrefab: {fileID: 0}
+  firePoint: {fileID: 4148176351067726656}
+  bulletPrefab: {fileID: 4108615101778571626, guid: f34c6b573d896924ab8fc78e9fbffddb, type: 3}
   bulletSpeed: 10
   shootCooldown: 0.4
+  useShootingAnimation: 1
+  playerAnimator: {fileID: 0}
+  shootTriggerName: isShooting
   swordHitbox: {fileID: 0}
   swordActiveTime: 0.12
   swordCooldown: 0.6
-  icePrefab: {fileID: 0}
+  swordParameterName: isHitting
+  icePrefab: {fileID: 728355088454414383, guid: 25ae2b5c66aa1914ab29d3fc9955e099, type: 3}
   iceSpeed: 0.5
-  iceLifeTime: 5
   freezeTargetLayer:
     serializedVersion: 2
     m_Bits: 0
+  freezeRange: 15
   freezeDuration: 2
   freezeCooldown: 1
 --- !u!1 &8864402517691738511

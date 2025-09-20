@@ -4,7 +4,7 @@ using System.Collections;
 public class EnemyHealth : MonoBehaviour
 {
     [Header("Hit System")]
-    public int maxHits = 3;      // عدد ضربات TakeHit
+    public int maxHits = 2;      // عدد ضربات TakeHit (طلقتين ليموت)
     private int currentHits = 0;
 
     [Header("Health System")]
@@ -13,8 +13,8 @@ public class EnemyHealth : MonoBehaviour
 
     [Header("Death Animation")]
     public float deathAnimationDuration = 1f;
-    public AnimationCurve deathScaleCurve = AnimationCurve.EaseInOut(0, 1, 1, 0);
-    public AnimationCurve deathRotationCurve = AnimationCurve.EaseInOut(0, 0, 1, 360);
+    public AnimationCurve deathScaleCurve = AnimationCurve.EaseInOut(0, 1, 1, 0); // يقلص من 1 إلى 0
+    public AnimationCurve deathRotationCurve = AnimationCurve.EaseInOut(0, 0, 1, 360); // يدور 360 درجة
 
     private bool isDead = false;
 
