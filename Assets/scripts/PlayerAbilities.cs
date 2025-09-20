@@ -27,13 +27,16 @@ public class PlayerAbilities : MonoBehaviour
     private float hittingTimer = 0f;
 
     [Header("Freeze")]
-    public GameObject icePrefab;
-    public float iceSpeed = 12f;
+    public GameObject freezePrefab; // Use existing Freez prefab
+    public float iceSpeed = 20f; // Faster speed
     public LayerMask freezeTargetLayer;
     public float freezeRange = 15f;
     public float freezeDuration = 2f;
-    public float freezeCooldown = 1f;
+    public float freezeCooldown = 0.3f; // Very short cooldown
     private float freezeTimer = 0f;
+    
+    [Header("Freeze Combat System")]
+    public int freezeHitsToKill = 2; // Number of freeze hits to kill enemy
 
     void Awake()
     {
@@ -43,6 +46,7 @@ public class PlayerAbilities : MonoBehaviour
 
     void Start()
     {
+        Debug.Log($"[PlayerAbilities] Start called - freezePrefab: {(freezePrefab != null ? "Found" : "NULL")}, firePoint: {(firePoint != null ? "Found" : "NULL")}");
         DetectSceneAndSetAbility();
         // تأخير بسيط لضمان أن الـ Animator جاهز
         StartCoroutine(InitializeAnimator());
@@ -69,12 +73,14 @@ public class PlayerAbilities : MonoBehaviour
     void Update()
     {
         if (shootTimer > 0f) shootTimer -= Time.deltaTime;
-        if (freezeTimer > 0f) freezeTimer -= Time.deltaTime;
         if (hittingTimer > 0f) hittingTimer -= Time.deltaTime;
+        if (freezeTimer > 0f) freezeTimer -= Time.deltaTime;
+        
 
         // إطلاق النار فقط عند الضغط
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
+            Debug.Log("[PlayerAbilities] Mouse clicked - calling TryUseAbility");
             TryUseAbility();
         }
     }
@@ -95,27 +101,44 @@ public class PlayerAbilities : MonoBehaviour
 
     void TryUseAbility()
     {
+        Debug.Log($"[PlayerAbilities] TryUseAbility called - Current ability: {currentAbility}");
+        
         switch (currentAbility)
         {
             case AbilityType.Shooting:
                 if (shootTimer <= 0f) 
                 { 
+                    Debug.Log("[PlayerAbilities] Shooting ability activated!");
                     DoShoot(); 
                     shootTimer = shootCooldown; 
+                }
+                else
+                {
+                    Debug.Log($"[PlayerAbilities] Shooting on cooldown: {shootTimer:F2}s");
                 }
                 break;
             case AbilityType.Sword:
                 if (hittingTimer <= 0f) 
                 { 
+                    Debug.Log("[PlayerAbilities] Sword ability activated!");
                     StartCoroutine(DoHitting()); 
                     hittingTimer = hittingCooldown; 
+                }
+                else
+                {
+                    Debug.Log($"[PlayerAbilities] Sword on cooldown: {hittingTimer:F2}s");
                 }
                 break;
             case AbilityType.Freeze:
                 if (freezeTimer <= 0f) 
                 { 
+                    Debug.Log("[PlayerAbilities] Freeze ability activated!");
                     DoFreeze(); 
                     freezeTimer = freezeCooldown; 
+                }
+                else
+                {
+                    Debug.Log($"[PlayerAbilities] Freeze on cooldown: {freezeTimer:F2}s");
                 }
                 break;
         }
@@ -180,32 +203,36 @@ public class PlayerAbilities : MonoBehaviour
         // تفعيل حالة الضرب بعد فترة قصيرة (عندما تصل اليد للأعلى)
         yield return new WaitForSeconds(0.1f);
         isHittingAttacking = true;
+        Debug.Log("[PlayerAbilities] Hitting attack activated!");
         
-        // إبقاء حالة الضرب لمدة قصيرة
-        yield return new WaitForSeconds(0.2f);
+        // إبقاء حالة الضرب لمدة أطول
+        yield return new WaitForSeconds(0.5f);
         isHittingAttacking = false;
+        Debug.Log("[PlayerAbilities] Hitting attack deactivated!");
         
         isHittingAnimating = false;
     }
 
     void DoFreeze()
     {
-        if (icePrefab == null || firePoint == null) return;
+        if (freezePrefab == null || firePoint == null) 
+        {
+            Debug.LogError("[PlayerAbilities] DoFreeze failed - freezePrefab or firePoint is null!");
+            return;
+        }
 
-        GameObject ice = Instantiate(icePrefab, firePoint.position, Quaternion.identity);
+        Debug.Log("[PlayerAbilities] DoFreeze called - creating freeze particle");
+        GameObject ice = Instantiate(freezePrefab, firePoint.position, Quaternion.identity);
 
-        Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mouseWorld.z = 0;
-        Vector2 dir = (mouseWorld - firePoint.position).normalized;
-        dir.y = 0; 
-        dir = dir.normalized;
+        // Always shoot left (horizontal direction)
+        Vector2 dir = Vector2.left; // Always go left
 
         Rigidbody2D rb = ice.GetComponent<Rigidbody2D>();
         if (rb != null)
         {
             rb.linearVelocity = dir * iceSpeed;
             rb.gravityScale = 0f;
-            rb.isKinematic = false;
+            rb.bodyType = RigidbodyType2D.Dynamic;
             rb.linearDamping = 0f;
             rb.angularDamping = 0f;
         }
@@ -214,33 +241,74 @@ public class PlayerAbilities : MonoBehaviour
         if (iceCollider != null)
             iceCollider.isTrigger = true;
 
+        // Set rotation to horizontal (0 degrees for left direction)
         ice.transform.rotation = Quaternion.Euler(0, 0, 0);
+        
+        // If the particle system has a main module, set the start rotation and make it burst
+        ParticleSystem ps = ice.GetComponent<ParticleSystem>();
+        if (ps != null)
+        {
+            var main = ps.main;
+            main.startRotation = 0f; // 0 degrees = horizontal
+            main.startLifetime = 1f; // Normal lifetime
+            main.startSpeed = 15f; // Normal speed
+            // Don't limit particles - let it work naturally
+            // Stop continuous emission by setting emission rate to 0
+            
+            // Let particle system work naturally - no burst, no limits
+            var emission = ps.emission;
+            emission.enabled = true;
+            // Don't modify emission - let it work as designed
+            
+            Debug.Log("[PlayerAbilities] Set particle system to burst mode - fast and short!");
+        }
 
-        IceParticleController particleController = ice.GetComponent<IceParticleController>();
-        if (particleController == null)
-            ice.AddComponent<IceParticleController>();
+        // No need for IceParticleController - let particle system work naturally
 
-        Destroy(ice, 4f);
+        Destroy(ice, 2f); // Destroy after 2 seconds
     }
+    
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        // إذا كان اللاعب في حالة ضرب ولمس enemy
-        if (isHittingAttacking && collision.CompareTag("Enemy"))
+        Debug.Log($"[PlayerAbilities] OnTriggerEnter2D: {collision.name}, isHittingAttacking: {isHittingAttacking}, Tag: {collision.tag}");
+        
+        // إذا كان اللاعب في حالة ضرب ولمس enemy (فقط في sky scene)
+        string currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.ToLower();
+        bool isSkyScene = currentScene.Contains("sky");
+        
+        if (isHittingAttacking && collision.CompareTag("Enemy") && isSkyScene)
         {
+            Debug.Log($"[PlayerAbilities] Hitting enemy in sky scene: {collision.name}");
+            
             // جرب EnemyHealth أولاً
             EnemyHealth enemyHealth = collision.GetComponent<EnemyHealth>();
             if (enemyHealth != null)
             {
+                Debug.Log($"[PlayerAbilities] Found EnemyHealth, calling TakeHit()");
                 enemyHealth.TakeHit();
                 return;
             }
             
-            // إذا لم يجد EnemyHealth، جرب EnemyMov
+            // إذا لم يجد EnemyHealth، جرب FlyingEnemy
+            FlyingEnemy flyingEnemy = collision.GetComponent<FlyingEnemy>();
+            if (flyingEnemy != null)
+            {
+                Debug.Log($"[PlayerAbilities] Found FlyingEnemy, calling TakeDamage(3)");
+                flyingEnemy.TakeDamage(3); // ضربة قاتلة (يقتل بضربة واحدة)
+                return;
+            }
+            
+            // إذا لم يجد FlyingEnemy، جرب EnemyMov
             EnemyMov enemy = collision.GetComponent<EnemyMov>();
             if (enemy != null)
             {
+                Debug.Log($"[PlayerAbilities] Found EnemyMov, calling TakeDamage(2)");
                 enemy.TakeDamage(2); // ضربة قوية
+            }
+            else
+            {
+                Debug.Log($"[PlayerAbilities] No enemy component found on: {collision.name}");
             }
         }
     }

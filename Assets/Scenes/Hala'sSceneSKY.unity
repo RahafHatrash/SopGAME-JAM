@@ -859,6 +859,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FlyingSpawner
       objectReference: {fileID: 0}
+    - target: {fileID: 5081530315255839065, guid: db40ce5ad32a62b4e99ca36ff73a0d45, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 7435608172155269481, guid: db40ce5ad32a62b4e99ca36ff73a0d45, type: 3}
       propertyPath: m_LocalPosition.x
       value: -9.98

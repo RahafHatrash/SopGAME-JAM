@@ -28,7 +28,8 @@ public class FlyingEnemy : MonoBehaviour
     private ItemDropper itemDropper;
     private bool movingRight = true;
     private bool isDead = false;
-    private bool isFrozen = false;
+    public bool isFrozen = false;
+    private Color originalColor; // Store original color
     private Vector3 startPosition;
     
     void Start()
@@ -109,6 +110,7 @@ public class FlyingEnemy : MonoBehaviour
         // Apply horizontal movement only (flying enemy)
         float direction = movingRight ? 1f : -1f;
         rb.linearVelocity = new Vector2(direction * moveSpeed, 0f);
+        Debug.Log($"[FlyingEnemy] Moving: direction={direction}, speed={moveSpeed}, velocity={rb.linearVelocity}");
     }
     
     void CheckScreenEdges()
@@ -177,6 +179,7 @@ public class FlyingEnemy : MonoBehaviour
         float elapsedTime = 0f;
         Vector3 originalScale = transform.localScale;
         float originalRotation = transform.rotation.eulerAngles.z;
+        Color originalColor = spriteRenderer.color;
         
         while (elapsedTime < deathAnimationDuration)
         {
@@ -190,6 +193,11 @@ public class FlyingEnemy : MonoBehaviour
             // Apply rotation animation
             float rotationAmount = deathRotationCurve.Evaluate(progress);
             transform.rotation = Quaternion.Euler(0, 0, originalRotation + rotationAmount);
+            
+            // Apply red flash effect (أحمر خفيف يختفي تدريجياً)
+            float redFlashIntensity = Mathf.Lerp(1f, 0f, progress); // من 1 إلى 0
+            Color flashColor = Color.Lerp(originalColor, Color.red, redFlashIntensity * 0.3f); // 30% أحمر
+            spriteRenderer.color = flashColor;
             
             yield return null;
         }
@@ -231,21 +239,21 @@ public class FlyingEnemy : MonoBehaviour
     }
     
     
-    void OnTriggerEnter2D(Collider2D other)
+    void OnCollisionEnter2D(Collision2D collision)
     {
         // Ignore other enemies
-        if (other.CompareTag("Enemy") || 
-            other.GetComponent<EnemyMov>() != null ||
-            other.GetComponent<FlyingEnemy>() != null)
+        if (collision.gameObject.CompareTag("Enemy") || 
+            collision.gameObject.GetComponent<EnemyMov>() != null ||
+            collision.gameObject.GetComponent<FlyingEnemy>() != null)
         {
             return; // Don't interact with other enemies
         }
         
-        // Only interact with player
-        if (other.CompareTag("Player"))
+        // Only interact with player if not frozen
+        if (collision.gameObject.CompareTag("Player") && !isFrozen)
         {
             // Deal damage to player
-            PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
+            PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
             if (playerHealth != null)
             {
                 playerHealth.TakeDamage(damageToPlayer);
@@ -255,6 +263,10 @@ public class FlyingEnemy : MonoBehaviour
             // Switch direction when hitting player
             movingRight = !movingRight;
             Debug.Log("Flying enemy switched direction after hitting player!");
+        }
+        else if (collision.gameObject.CompareTag("Player") && isFrozen)
+        {
+            Debug.Log("Frozen flying enemy cannot damage player!");
         }
     }
     
@@ -277,24 +289,25 @@ public class FlyingEnemy : MonoBehaviour
     {
         if (isDead) return;
         
-        isFrozen = true;
-        Debug.Log("FlyingEnemy frozen for " + duration + " seconds!");
-        
-        // Stop movement
-        if (rb != null)
-        {
-            rb.linearVelocity = Vector2.zero;
-        }
-        
-        // Start unfreeze coroutine
-        StartCoroutine(UnfreezeAfter(duration));
+        // FlyingEnemy doesn't freeze - just ignore freeze hits
+        Debug.Log("FlyingEnemy ignores freeze hits - only ground enemies freeze!");
     }
     
     private System.Collections.IEnumerator UnfreezeAfter(float duration)
     {
         yield return new WaitForSeconds(duration);
         isFrozen = false;
-        Debug.Log("FlyingEnemy unfrozen!");
+        
+        // Restore original color
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.color = originalColor;
+            Debug.Log("FlyingEnemy unfrozen! Color restored to: " + originalColor);
+        }
+        else
+        {
+            Debug.Log("FlyingEnemy unfrozen!");
+        }
     }
 }
 

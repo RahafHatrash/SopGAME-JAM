@@ -28,7 +28,9 @@ public class EnemyMov : MonoBehaviour
     private ItemDropper itemDropper;
     private bool movingRight = true;
     private bool isDead = false;
-    private bool isFrozen = false;
+    public bool isFrozen = false;
+    private Color originalColor; // Store original color
+    private int freezeHitCount = 0; // Count freeze hits
     
     // Ground check visualization variables
     private bool isGroundedAhead = false;
@@ -181,6 +183,7 @@ public class EnemyMov : MonoBehaviour
         float elapsedTime = 0f;
         Vector3 originalScale = transform.localScale;
         float originalRotation = transform.rotation.eulerAngles.z;
+        Color originalColor = spriteRenderer.color;
         
         while (elapsedTime < deathAnimationDuration)
         {
@@ -194,6 +197,11 @@ public class EnemyMov : MonoBehaviour
             // Apply rotation animation
             float rotationAmount = deathRotationCurve.Evaluate(progress);
             transform.rotation = Quaternion.Euler(0, 0, originalRotation + rotationAmount);
+            
+            // Apply red flash effect (أحمر خفيف يختفي تدريجياً)
+            float redFlashIntensity = Mathf.Lerp(1f, 0f, progress); // من 1 إلى 0
+            Color flashColor = Color.Lerp(originalColor, Color.red, redFlashIntensity * 0.3f); // 30% أحمر
+            spriteRenderer.color = flashColor;
             
             yield return null;
         }
@@ -247,8 +255,8 @@ public class EnemyMov : MonoBehaviour
             return;
         }
         
-        // Only interact with player
-        if (collision.gameObject.CompareTag(playerTag))
+        // Only interact with player if not frozen
+        if (collision.gameObject.CompareTag(playerTag) && !isFrozen)
         {
             // Deal damage to player
             PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
@@ -261,6 +269,10 @@ public class EnemyMov : MonoBehaviour
             // Switch direction when hitting player
             movingRight = !movingRight;
             Debug.Log("Enemy switched direction after hitting player!");
+        }
+        else if (collision.gameObject.CompareTag(playerTag) && isFrozen)
+        {
+            Debug.Log("Frozen enemy cannot damage player!");
         }
     }
     
@@ -325,8 +337,25 @@ public class EnemyMov : MonoBehaviour
     {
         if (isDead) return;
         
+        freezeHitCount++;
+        Debug.Log($"EnemyMov freeze hit #{freezeHitCount}!");
+        
+        // Check if enough freeze hits to kill
+        if (freezeHitCount >= 2)
+        {
+            Debug.Log("EnemyMov killed by freeze hits!");
+            Die();
+            return;
+        }
+        
         isFrozen = true;
         Debug.Log("Enemy frozen for " + duration + " seconds!");
+        
+        // Store original color
+        if (spriteRenderer != null)
+        {
+            originalColor = spriteRenderer.color;
+        }
         
         // Stop movement
         if (rb != null)
@@ -342,6 +371,16 @@ public class EnemyMov : MonoBehaviour
     {
         yield return new WaitForSeconds(duration);
         isFrozen = false;
-        Debug.Log("Enemy unfrozen!");
+        
+        // Restore original color
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.color = originalColor;
+            Debug.Log("Enemy unfrozen! Color restored to: " + originalColor);
+        }
+        else
+        {
+            Debug.Log("Enemy unfrozen!");
+        }
     }
 }

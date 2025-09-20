@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -31,11 +32,13 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private bool isGrounded;
     private float horizontalInput;
-    private float lastMovementDirection = 1f; // 1 for right, -1 for left
+    private float lastMovementDirection = 0f; // 0 means no movement until player input
     
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        Debug.Log($"[PlayerController] Starting with lastMovementDirection: {lastMovementDirection}, useMomentumMovement: {useMomentumMovement}");
+        Debug.Log("[PlayerController] Death trigger detection enabled - looking for 'Die' tag");
         
         // Get Animator component if not assigned
         if (animator == null)
@@ -162,8 +165,8 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                // No input - use auto movement in last direction
-                targetVelocityX = lastMovementDirection * autoMovementSpeed;
+                // No input - stop moving completely
+                targetVelocityX = 0f;
             }
             
             // Smoothly transition to target velocity
@@ -258,6 +261,38 @@ public class PlayerController : MonoBehaviour
         {
             Gizmos.color = isGrounded ? Color.green : Color.red;
             Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+        }
+    }
+    
+    // Public method to check if player is grounded
+    public bool IsGrounded()
+    {
+        return isGrounded;
+    }
+    
+    // Check for death triggers
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log($"[PlayerController] OnTriggerEnter2D with: {other.name}, Tag: {other.tag}");
+        
+        // Check if player touched death trigger
+        if (other.CompareTag("Die"))
+        {
+            Debug.Log("[PlayerController] Player touched Die trigger - going to death scene!");
+            SceneManager.LoadScene("DieScene");
+        }
+    }
+    
+    // Also check OnCollisionEnter2D in case it's not a trigger
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log($"[PlayerController] OnCollisionEnter2D with: {collision.gameObject.name}, Tag: {collision.gameObject.tag}");
+        
+        // Check if player touched death trigger
+        if (collision.gameObject.CompareTag("Die"))
+        {
+            Debug.Log("[PlayerController] Player collided with Die trigger - going to death scene!");
+            SceneManager.LoadScene("DieScene");
         }
     }
 }

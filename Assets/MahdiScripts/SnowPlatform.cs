@@ -10,8 +10,10 @@ public class SnowPlatform : MonoBehaviour
         PlayerController player = collision.gameObject.GetComponent<PlayerController>();
         if (player != null)
         {
-            // Enable momentum movement for snow platforms
+            // Enable momentum movement for snow platforms but keep normal speed
             player.useMomentumMovement = true;
+            player.autoMovementSpeed = 5f; // Same speed as sky scene
+            player.manualMovementSpeed = 5f; // Same speed as sky scene
         }
     }
     

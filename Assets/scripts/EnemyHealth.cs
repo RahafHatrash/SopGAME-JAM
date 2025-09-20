@@ -85,6 +85,10 @@ public class EnemyHealth : MonoBehaviour
         Vector3 originalScale = transform.localScale;
         float originalRotation = transform.rotation.eulerAngles.z;
         
+        // Get SpriteRenderer for color effect
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        Color originalColor = spriteRenderer != null ? spriteRenderer.color : Color.white;
+        
         while (elapsedTime < deathAnimationDuration)
         {
             elapsedTime += Time.deltaTime;
@@ -97,6 +101,14 @@ public class EnemyHealth : MonoBehaviour
             // Apply rotation animation (يدور)
             float rotationAmount = deathRotationCurve.Evaluate(progress);
             transform.rotation = Quaternion.Euler(0, 0, originalRotation + rotationAmount);
+            
+            // Apply red flash effect (أحمر خفيف يختفي تدريجياً)
+            if (spriteRenderer != null)
+            {
+                float redFlashIntensity = Mathf.Lerp(1f, 0f, progress); // من 1 إلى 0
+                Color flashColor = Color.Lerp(originalColor, Color.red, redFlashIntensity * 0.3f); // 30% أحمر
+                spriteRenderer.color = flashColor;
+            }
             
             yield return null;
         }

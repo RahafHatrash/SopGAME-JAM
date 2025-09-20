@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1326228334742433603}
   - component: {fileID: 2131634911734810557}
   m_Layer: 0
-  m_Name: Magic fire pro green
+  m_Name: Freez
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 728355088454414383}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: 0.6431396, w: 0.7657489}
+  m_LocalRotation: {x: -0, y: -0, z: -0.0056203934, w: 0.9999842}
   m_LocalPosition: {x: 0, y: 1, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -39,7 +39,7 @@ Transform:
   - {fileID: 2774779260422251605}
   - {fileID: 3680449169049730804}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 80.053}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.644}
 --- !u!198 &7262642210683301666
 ParticleSystem:
   m_ObjectHideFlags: 0

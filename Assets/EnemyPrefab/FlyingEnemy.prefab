@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7087223854738892319}
   m_Layer: 0
   m_Name: FlyingEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98,7 +98,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.03686762, y: 0.05530107}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -108,7 +108,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 3.2099998, y: 3.561213}
+  m_Size: {x: 4.057946, y: 4.00362}
   m_EdgeRadius: 0
 --- !u!212 &5835664420201566421
 SpriteRenderer:
@@ -180,7 +180,7 @@ MonoBehaviour:
   moveSpeed: 3
   flightHeight: 2
   screenEdgeBuffer: 1
-  maxHealth: 3
+  maxHealth: 1
   deathAnimationDuration: 1
   deathScaleCurve:
     serializedVersion: 2
@@ -298,8 +298,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1014a9962a49ab34f9cbe0156abf60df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doubleXPSprite: {fileID: 0}
-  healthPackSprite: {fileID: 0}
+  doubleXPSprite: {fileID: 21300000, guid: fb26add122525304b9230df5f87cd2a2, type: 3}
+  healthPackSprite: {fileID: 21300000, guid: 63cdafe3c58d4c642b5579ba8a4541e9, type: 3}
   bonusDropChance: 0.3
   xpDropChance: 0.6
   bonusXPAmount: 10

@@ -1,13 +1,24 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
     [Header("Health Settings")]
     public int maxHealth = 10;
     
+    [Header("Death Settings")]
+    public string deathSceneName = "DieScene";
+    public float deathDelay = 0f; // No delay - go to death scene immediately
+    
+    [Header("Fall Death Settings")]
+    public bool enableGroundedFallDeath = true; // Die when not grounded
+    public float groundedFallDelay = 1f; // Delay before death when not grounded
+    
     private int currentHealth;
     private bool isDead = false;
     private PlayerController playerController;
+    private bool wasGrounded = true;
+    private float notGroundedTimer = 0f;
     
     // Events for other systems to listen to
     public System.Action<int, int> OnHealthChanged; // currentHealth, maxHealth
@@ -31,6 +42,45 @@ public class PlayerHealth : MonoBehaviour
     
     void Update()
     {
+        
+        // Check for grounded fall death
+        if (enableGroundedFallDeath && !isDead && playerController != null)
+        {
+            bool isGrounded = playerController.IsGrounded();
+            
+            if (!isGrounded && wasGrounded)
+            {
+                // Player just left ground, start timer
+                notGroundedTimer = 0f;
+                Debug.Log("[PlayerHealth] Player left ground - starting fall timer!");
+            }
+            else if (!isGrounded)
+            {
+                // Player is still not grounded, increment timer
+                notGroundedTimer += Time.deltaTime;
+                
+                if (notGroundedTimer >= groundedFallDelay)
+                {
+                    Debug.Log($"[PlayerHealth] Player fell off ground for {notGroundedTimer:F1} seconds - DEATH BY FALLING!");
+                    Die();
+                    return;
+                }
+            }
+            else if (isGrounded)
+            {
+                // Player is back on ground, reset timer
+                notGroundedTimer = 0f;
+            }
+            
+            wasGrounded = isGrounded;
+        }
+        
+        // Debug grounded fall death every 2 seconds
+        if (Time.time % 2f < 0.1f && !isDead && playerController != null)
+        {
+            Debug.Log($"[PlayerHealth] Player grounded: {playerController.IsGrounded()}, NotGroundedTimer: {notGroundedTimer:F1}s");
+        }
+        
         // Debug input to test damage (H key)
         if (Input.GetKeyDown(KeyCode.H))
         {
@@ -114,7 +164,7 @@ public class PlayerHealth : MonoBehaviour
         if (isDead) return;
         
         isDead = true;
-        Debug.Log(" PLAYER DIED! Health reached 0 - Game Over!");
+        Debug.Log("💀 PLAYER DIED! Health reached 0 - Game Over! 💀");
         
         // Stop character movement
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
@@ -132,8 +182,11 @@ public class PlayerHealth : MonoBehaviour
         // Notify systems
         OnCharacterDied?.Invoke();
         
-        // Player stays dead - no respawn
+        // Go to death scene immediately
+        Debug.Log($"[PlayerHealth] Loading death scene immediately: {deathSceneName}");
+        SceneManager.LoadScene(deathSceneName);
     }
+    
     
     
     // Public getters for other systems
@@ -160,5 +213,13 @@ public class PlayerHealth : MonoBehaviour
     
     // Method to check if character can take damage
     public bool CanTakeDamage() => !isDead;
+    
+    // Method to set grounded fall death settings
+    public void SetGroundedFallDeathSettings(bool enabled, float delay)
+    {
+        enableGroundedFallDeath = enabled;
+        groundedFallDelay = delay;
+        Debug.Log($"[PlayerHealth] Grounded fall death settings updated - Enabled: {enabled}, Delay: {delay}s");
+    }
     
 }
