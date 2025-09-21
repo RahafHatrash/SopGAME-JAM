@@ -2203,8 +2203,24 @@ PrefabInstance:
       value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 880530983741174974, guid: d6b4f8a966b3d9144a1ef8ece55519e3, type: 3}
+      propertyPath: m_fontColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 880530983741174974, guid: d6b4f8a966b3d9144a1ef8ece55519e3, type: 3}
+      propertyPath: m_fontColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 880530983741174974, guid: d6b4f8a966b3d9144a1ef8ece55519e3, type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 880530983741174974, guid: d6b4f8a966b3d9144a1ef8ece55519e3, type: 3}
       propertyPath: m_fontSizeBase
       value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 880530983741174974, guid: d6b4f8a966b3d9144a1ef8ece55519e3, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 6159367488888498704, guid: d6b4f8a966b3d9144a1ef8ece55519e3, type: 3}
       propertyPath: m_AnchoredPosition.x

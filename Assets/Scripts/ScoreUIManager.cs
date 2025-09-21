@@ -18,8 +18,9 @@ public class ScoreUIManager : MonoBehaviour
         // Load high score
         highScore = PlayerPrefs.GetInt("HighScore", 0);
         
-        // Load current score from previous scene (if exists)
+        // Always load current score from PlayerPrefs (it will be 0 only if explicitly reset)
         currentScore = PlayerPrefs.GetInt("CurrentScore", 0);
+        Debug.Log($"[ScoreUIManager] Current score loaded: {currentScore}");
         
         UpdateUI();
         
@@ -32,10 +33,18 @@ public class ScoreUIManager : MonoBehaviour
         
         // Save current score
         PlayerPrefs.SetInt("CurrentScore", currentScore);
-        PlayerPrefs.Save();
         
+        // Check if current score is higher than high score
+        if (currentScore > highScore)
+        {
+            highScore = currentScore;
+            PlayerPrefs.SetInt("HighScore", highScore);
+            Debug.Log($"[ScoreUIManager] New high score: {highScore}!");
+        }
+        
+        PlayerPrefs.Save();
         UpdateUI();
-        Debug.Log($"[ScoreUIManager] Added {points} points! Total: {currentScore}");
+        Debug.Log($"[ScoreUIManager] Added {points} points! Total: {currentScore}, High: {highScore}");
     }
 
     void UpdateUI()
@@ -67,5 +76,27 @@ public class ScoreUIManager : MonoBehaviour
     public int GetHighScore()
     {
         return PlayerPrefs.GetInt("HighScore", 0);
+    }
+    
+    // Method to clear all scores (for Play button from MainMenu)
+    public void ClearAllScores()
+    {
+        currentScore = 0;
+        highScore = 0;
+        PlayerPrefs.SetInt("CurrentScore", 0);
+        PlayerPrefs.SetInt("HighScore", 0);
+        PlayerPrefs.Save();
+        UpdateUI();
+        Debug.Log("[ScoreUIManager] All scores cleared completely!");
+    }
+    
+    // Method to reset only current score (for Restart)
+    public void ResetCurrentScore()
+    {
+        currentScore = 0;
+        PlayerPrefs.SetInt("CurrentScore", 0);
+        PlayerPrefs.Save();
+        UpdateUI();
+        Debug.Log("[ScoreUIManager] Current score reset to 0, high score kept!");
     }
 }

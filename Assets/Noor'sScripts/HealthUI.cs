@@ -25,12 +25,26 @@ public class HealthUI : MonoBehaviour
     void Start()
     {
         // Find the player health component
+        FindPlayerHealth();
+    }
+    
+    void Update()
+    {
+        // Keep trying to find PlayerHealth if not found
+        if (playerHealth == null)
+        {
+            FindPlayerHealth();
+        }
+    }
+    
+    void FindPlayerHealth()
+    {
+        // Find the player health component
         playerHealth = FindObjectOfType<PlayerHealth>();
         
         if (playerHealth == null)
         {
-            Debug.LogError("HealthUI: No PlayerHealth component found in scene!");
-            return;
+            return; // Will retry in Update
         }
         
         // Subscribe to health events
@@ -40,6 +54,8 @@ public class HealthUI : MonoBehaviour
         // Initialize UI
         SetupUI();
         UpdateHealthDisplay(playerHealth.GetCurrentHealth(), playerHealth.GetMaxHealth());
+        
+        Debug.Log("HealthUI: PlayerHealth found and connected!");
     }
     
     void SetupUI()

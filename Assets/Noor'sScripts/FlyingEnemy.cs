@@ -48,11 +48,11 @@ public class FlyingEnemy : MonoBehaviour
             rb.freezeRotation = true; // Prevent rotation from physics
         }
         
-        // Set up collider as trigger so it doesn't collide with platforms
+        // Set up collider as trigger so it passes through platforms but collides with player
         Collider2D collider = GetComponent<Collider2D>();
         if (collider != null)
         {
-            collider.isTrigger = true; // Make it a trigger so it passes through platforms
+            collider.isTrigger = true; // Make it trigger so it passes through platforms
         }
         
         // Configure collision layers to ignore other enemies
@@ -236,34 +236,13 @@ public class FlyingEnemy : MonoBehaviour
     }
     
     
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        // Ignore other enemies
-        if (collision.gameObject.CompareTag("Enemy") || 
-            collision.gameObject.GetComponent<EnemyMov>() != null ||
-            collision.gameObject.GetComponent<FlyingEnemy>() != null)
+        // Only interact with player
+        if (other.CompareTag("Player"))
         {
-            return; // Don't interact with other enemies
-        }
-        
-        // Only interact with player if not frozen
-        if (collision.gameObject.CompareTag("Player") && !isFrozen)
-        {
-            // Deal damage to player
-            PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
-            if (playerHealth != null)
-            {
-                playerHealth.TakeDamage(damageToPlayer);
-                Debug.Log("Flying enemy hit player for " + damageToPlayer + " damage!");
-            }
-            
-            // Switch direction when hitting player
             movingRight = !movingRight;
             Debug.Log("Flying enemy switched direction after hitting player!");
-        }
-        else if (collision.gameObject.CompareTag("Player") && isFrozen)
-        {
-            Debug.Log("Frozen flying enemy cannot damage player!");
         }
     }
     

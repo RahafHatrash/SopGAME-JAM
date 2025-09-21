@@ -69,15 +69,24 @@ public class DieSceneUI : MonoBehaviour
     public void RestartGame()
     {
         Debug.Log("[DieSceneUI] Restarting game...");
-        // Reset current score for new game (but keep high score)
+        // Reset current score and health for restart
         PlayerPrefs.SetInt("CurrentScore", 0);
+        PlayerPrefs.SetInt("PlayerHealth", 10); // Reset health to max
         PlayerPrefs.Save();
+        Debug.Log("[DieSceneUI] Current score and health reset for restart");
         SceneManager.LoadScene("Hala'sSceneSKY");
     }
     
     public void QuitGame()
     {
-        Debug.Log("[DieSceneUI] Quitting game...");
+        Debug.Log("[DieSceneUI] Quitting game and clearing ALL scores...");
+        // Clear ALL scores (current and high) - EVERYTHING gets reset
+        PlayerPrefs.SetInt("CurrentScore", 0);
+        PlayerPrefs.SetInt("HighScore", 0);
+        PlayerPrefs.SetInt("PlayerHealth", 10); // Reset health to max
+        PlayerPrefs.Save();
+        Debug.Log("[DieSceneUI] ALL scores and health cleared - EVERYTHING reset!");
+        
         // Quit the game
         #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;

@@ -28,16 +28,16 @@ public class PlayerHealth : MonoBehaviour
     
     void Start()
     {
-        // Initialize health
-        currentHealth = maxHealth;
+        // Always load health from PlayerPrefs (it will be set by MainMenu or DieScene)
+        currentHealth = PlayerPrefs.GetInt("PlayerHealth", maxHealth);
+        currentHealth = Mathf.Min(currentHealth, maxHealth); // Don't exceed max health
+        Debug.Log($"PlayerHealth initialized - Health loaded: {currentHealth}/{maxHealth}");
         
         // Get components
         playerController = GetComponent<PlayerController>();
         
         // Notify systems of initial health
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
-        
-        Debug.Log($"PlayerHealth initialized - Health: {currentHealth}/{maxHealth}"); // PlayerHealth class
     }
     
     void Update()
@@ -114,6 +114,10 @@ public class PlayerHealth : MonoBehaviour
         currentHealth -= damage;
         currentHealth = Mathf.Max(0, currentHealth);
         
+        // Save health to PlayerPrefs
+        PlayerPrefs.SetInt("PlayerHealth", currentHealth);
+        PlayerPrefs.Save();
+        
         Debug.Log($"PLAYER DAMAGED! Took {damage} damage! Health: {currentHealth}/{maxHealth} | Remaining: {currentHealth} HP");
         
         // Notify systems
@@ -134,6 +138,10 @@ public class PlayerHealth : MonoBehaviour
         currentHealth += healAmount;
         currentHealth = Mathf.Min(maxHealth, currentHealth);
         
+        // Save health to PlayerPrefs
+        PlayerPrefs.SetInt("PlayerHealth", currentHealth);
+        PlayerPrefs.Save();
+        
         Debug.Log($"Character healed for {healAmount}! Health: {currentHealth}/{maxHealth}");
         
         // Notify systems
@@ -149,6 +157,10 @@ public class PlayerHealth : MonoBehaviour
         int bonusHealth = 2;
         currentHealth += bonusHealth;
         currentHealth = Mathf.Min(maxHealth, currentHealth);
+        
+        // Save health to PlayerPrefs
+        PlayerPrefs.SetInt("PlayerHealth", currentHealth);
+        PlayerPrefs.Save();
         
         Debug.Log($"Character collected bonus health item! Restored {bonusHealth} health! Health: {currentHealth}/{maxHealth}");
         

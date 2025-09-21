@@ -196,6 +196,14 @@ public class PlayerAbilities : MonoBehaviour
 
     IEnumerator DoHitting()
     {
+        // Only play hitting animation in Sky scene
+        string currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        if (!currentScene.Contains("Sky") && !currentScene.Contains("SKY"))
+        {
+            Debug.Log("[PlayerAbilities] Hitting animation skipped - not in Sky scene");
+            yield break;
+        }
+        
         if (isHittingAnimating) yield break;
         
         isHittingAnimating = true;
@@ -206,17 +214,22 @@ public class PlayerAbilities : MonoBehaviour
             playerAnimator.SetTrigger(hittingParameterName);
         }
         
-        // تفعيل حالة الضرب بعد فترة قصيرة (عندما تصل اليد للأعلى)
-        yield return new WaitForSeconds(0.1f);
+        // تفعيل حالة الضرب فوراً (مزامنة مع PlayerController)
         isHittingAttacking = true;
         Debug.Log("[PlayerAbilities] Hitting attack activated!");
         
-        // إبقاء حالة الضرب لمدة أطول
+        // إبقاء حالة الضرب لمدة أطول (لضمان موت الانمي)
         yield return new WaitForSeconds(0.5f);
         isHittingAttacking = false;
         Debug.Log("[PlayerAbilities] Hitting attack deactivated!");
         
         isHittingAnimating = false;
+    }
+
+    // Check if player is currently hitting
+    public bool IsHittingAttacking()
+    {
+        return isHittingAttacking;
     }
 
     void DoFreeze()
@@ -225,6 +238,13 @@ public class PlayerAbilities : MonoBehaviour
         {
             Debug.LogError("[PlayerAbilities] DoFreeze failed - freezePrefab or firePoint is null!");
             return;
+        }
+
+        // Play shooting animation for freeze (same as shooting)
+        if (playerAnimator != null && useShootingAnimation)
+        {
+            playerAnimator.SetTrigger(shootTriggerName);
+            Debug.Log("[PlayerAbilities] Freeze shooting animation triggered!");
         }
 
         Debug.Log("[PlayerAbilities] DoFreeze called - creating freeze particle");
@@ -277,13 +297,20 @@ public class PlayerAbilities : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log($"[PlayerAbilities] OnTriggerEnter2D: {collision.name}, isHittingAttacking: {isHittingAttacking}, Tag: {collision.tag}");
-        
-        // إذا كان اللاعب في حالة ضرب ولمس enemy (فقط في sky scene)
+        // Only handle hitting in Sky scene
         string currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.ToLower();
         bool isSkyScene = currentScene.Contains("sky");
         
-        if (isHittingAttacking && collision.CompareTag("Enemy") && isSkyScene)
+        if (!isSkyScene)
+        {
+            // Skip hitting logic in non-sky scenes
+            return;
+        }
+        
+        Debug.Log($"[PlayerAbilities] OnTriggerEnter2D: {collision.name}, isHittingAttacking: {isHittingAttacking}, Tag: {collision.tag}");
+        
+        // إذا كان اللاعب في حالة ضرب ولمس enemy (فقط في sky scene)
+        if (isHittingAttacking && collision.CompareTag("Enemy"))
         {
             Debug.Log($"[PlayerAbilities] Hitting enemy in sky scene: {collision.name}");
             
@@ -315,6 +342,57 @@ public class PlayerAbilities : MonoBehaviour
             else
             {
                 Debug.Log($"[PlayerAbilities] No enemy component found on: {collision.name}");
+            }
+        }
+    }
+    
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        // Only handle hitting in Sky scene
+        string currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.ToLower();
+        bool isSkyScene = currentScene.Contains("sky");
+        
+        if (!isSkyScene)
+        {
+            // Skip hitting logic in non-sky scenes
+            return;
+        }
+        
+        Debug.Log($"[PlayerAbilities] OnCollisionEnter2D: {collision.gameObject.name}, isHittingAttacking: {isHittingAttacking}, Tag: {collision.gameObject.tag}");
+        
+        // إذا كان اللاعب في حالة ضرب ولمس enemy (فقط في sky scene)
+        if (isHittingAttacking && collision.gameObject.CompareTag("Enemy"))
+        {
+            Debug.Log($"[PlayerAbilities] Hitting enemy in sky scene: {collision.gameObject.name}");
+            
+            // جرب EnemyHealth أولاً
+            EnemyHealth enemyHealth = collision.gameObject.GetComponent<EnemyHealth>();
+            if (enemyHealth != null)
+            {
+                Debug.Log($"[PlayerAbilities] Found EnemyHealth, calling TakeHit()");
+                enemyHealth.TakeHit();
+                return;
+            }
+            
+            // إذا لم يجد EnemyHealth، جرب FlyingEnemy
+            FlyingEnemy flyingEnemy = collision.gameObject.GetComponent<FlyingEnemy>();
+            if (flyingEnemy != null)
+            {
+                Debug.Log($"[PlayerAbilities] Found FlyingEnemy, calling TakeDamage(3)");
+                flyingEnemy.TakeDamage(3); // ضربة قاتلة (يقتل بضربة واحدة)
+                return;
+            }
+            
+            // إذا لم يجد FlyingEnemy، جرب EnemyMov
+            EnemyMov enemy = collision.gameObject.GetComponent<EnemyMov>();
+            if (enemy != null)
+            {
+                Debug.Log($"[PlayerAbilities] Found EnemyMov, calling TakeDamage(2)");
+                enemy.TakeDamage(2); // ضربة قوية
+            }
+            else
+            {
+                Debug.Log($"[PlayerAbilities] No enemy component found on: {collision.gameObject.name}");
             }
         }
     }

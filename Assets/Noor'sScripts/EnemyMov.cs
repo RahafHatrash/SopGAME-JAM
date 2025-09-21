@@ -252,24 +252,11 @@ public class EnemyMov : MonoBehaviour
             return;
         }
         
-        // Only interact with player if not frozen
-        if (collision.gameObject.CompareTag(playerTag) && !isFrozen)
+        // Switch direction when hitting player (damage is handled by PlayerController)
+        if (collision.gameObject.CompareTag(playerTag))
         {
-            // Deal damage to player
-            PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
-            if (playerHealth != null)
-            {
-                playerHealth.TakeDamage(damageToPlayer);
-                Debug.Log("Enemy hit player for " + damageToPlayer + " damage!");
-            }
-            
-            // Switch direction when hitting player
             movingRight = !movingRight;
             Debug.Log("Enemy switched direction after hitting player!");
-        }
-        else if (collision.gameObject.CompareTag(playerTag) && isFrozen)
-        {
-            Debug.Log("Frozen enemy cannot damage player!");
         }
     }
     
