@@ -22,7 +22,8 @@ public class AudioManager : MonoBehaviour
     [Header("Player Movement Audio")]
     [SerializeField] private AudioClip jumpSound;
     [SerializeField] private AudioClip footstepSound;
-    [SerializeField] private AudioClip hitSound;
+    [SerializeField] private AudioClip hitSound;           // Sound for player attacking
+    [SerializeField] private AudioClip damageSound;        // Sound for player taking damage
     [SerializeField] private AudioClip deathSound;
     [SerializeField] private AudioClip shootSound;
     [SerializeField] private AudioClip buttonClickSound;
@@ -43,6 +44,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private float footstepVolume = 0.3f;
     [SerializeField] private float jumpVolume = 0.7f;
     [SerializeField] private float hitVolume = 0.7f;
+    [SerializeField] private float damageVolume = 0.8f;
     [SerializeField] private float shootVolume = 0.7f;
     [SerializeField] private float deathVolume = 0.8f;
     [SerializeField] private float pickupVolume = 0.6f;
@@ -356,6 +358,16 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void PlayDamageSound()
+    {
+        if (damageSound != null)
+        {
+            float volume = damageVolume * playerVolume * masterVolume;
+            playerSource.PlayOneShot(damageSound, volume);
+            Debug.Log("Damage sound played");
+        }
+    }
+
     public void PlayDeathSound()
     {
         if (deathSound != null)
@@ -467,6 +479,11 @@ public class AudioManager : MonoBehaviour
     public void SetHitVolume(float volume)
     {
         hitVolume = Mathf.Clamp01(volume);
+    }
+
+    public void SetDamageVolume(float volume)
+    {
+        damageVolume = Mathf.Clamp01(volume);
     }
 
     public void SetShootVolume(float volume)
@@ -645,6 +662,12 @@ public class AudioManager : MonoBehaviour
         PlayHitSound();
     }
 
+    [ContextMenu("Test Damage Sound")]
+    public void TestDamageSound()
+    {
+        PlayDamageSound();
+    }
+
     [ContextMenu("Test Footstep Sound")]
     public void TestFootstepSound()
     {
@@ -710,6 +733,7 @@ public class AudioManager : MonoBehaviour
         footstepVolume = 0.3f;
         jumpVolume = 0.7f;
         hitVolume = 0.7f;
+        damageVolume = 0.8f;
         shootVolume = 0.7f;
         deathVolume = 0.8f;
         pickupVolume = 0.6f;

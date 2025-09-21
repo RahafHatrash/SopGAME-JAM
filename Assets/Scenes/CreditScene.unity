@@ -224,21 +224,21 @@ MonoBehaviour:
     isHeader: 0
     isEmptyLine: 0
   - name: Hala Filimban
-    role: Lead Developer
+    role: Game Developer / Technical Artist
     isHeader: 0
     isEmptyLine: 0
   - name: Noor Bin Abbas
-    role: Game Designer
+    role: Game Programmer
     isHeader: 0
     isEmptyLine: 0
   - name: Rahaf Hatrash
-    role: Artist
+    role: Game Programmer
     isHeader: 0
     isEmptyLine: 0
-  - name: ' '
+  - name: '  '
     role: 
     isHeader: 0
-    isEmptyLine: 1
+    isEmptyLine: 0
   - name: THANKS!
     role: 
     isHeader: 1

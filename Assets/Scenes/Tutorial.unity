@@ -648,7 +648,7 @@ MonoBehaviour:
   - And just like that the fabric of the universe shattered around him, endlessly
     crashing and twisting taking him everywhere and nowhere.
   tutorialPhotos:
-  - {fileID: -5544475461183255679, guid: 45c6021692886254d939979dc8df01f9, type: 3}
+  - {fileID: 4506077826420304084, guid: d5c58805faecf434ea6d231a32440926, type: 3}
   - {fileID: 14231890308654558, guid: e5bee0ce3a4e33c409ab5165b6f686c3, type: 3}
   - {fileID: -3922013612942078482, guid: 4b568b67be66edc4e9f25f967f2b6b7a, type: 3}
   photoDisplayTime: 30

@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1014a9962a49ab34f9cbe0156abf60df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doubleXPSprite: {fileID: 21300000, guid: fb26add122525304b9230df5f87cd2a2, type: 3}
-  healthPackSprite: {fileID: 21300000, guid: 63cdafe3c58d4c642b5579ba8a4541e9, type: 3}
+  doubleXPSprite: {fileID: -5225237488285398988, guid: d87eac0ddf694254a8d1bfc4afad5361, type: 3}
+  healthPackSprite: {fileID: 542796057223170383, guid: ca22f59c86a5872439c2791c60a47181, type: 3}
   bonusDropChance: 0.3
   xpDropChance: 0.6
   bonusXPAmount: 10

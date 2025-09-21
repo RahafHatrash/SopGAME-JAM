@@ -14,11 +14,23 @@ public class PlayerHealth : MonoBehaviour
     public bool enableGroundedFallDeath = true; // Die when not grounded
     public float groundedFallDelay = 1f; // Delay before death when not grounded
     
+    [Header("Damage Visual Effects")]
+    public float damageFlashDuration = 0.3f; // How long the red flash lasts
+    public Color damageFlashColor = Color.red; // Color to flash when damaged
+    
+    [Header("Damage Sound")]
+    // Hit sound is now managed by AudioManager
+    
     private int currentHealth;
     private bool isDead = false;
     private PlayerController playerController;
     private bool wasGrounded = true;
     private float notGroundedTimer = 0f;
+    
+    // Visual effects
+    private SpriteRenderer spriteRenderer;
+    private Color originalColor;
+    private bool isFlashing = false;
     
     // Events for other systems to listen to
     public System.Action<int, int> OnHealthChanged; // currentHealth, maxHealth
@@ -35,6 +47,13 @@ public class PlayerHealth : MonoBehaviour
         
         // Get components
         playerController = GetComponent<PlayerController>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        
+        // Store original color for damage flash effect
+        if (spriteRenderer != null)
+        {
+            originalColor = spriteRenderer.color;
+        }
         
         // Notify systems of initial health
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
@@ -119,6 +138,15 @@ public class PlayerHealth : MonoBehaviour
         PlayerPrefs.Save();
         
         Debug.Log($"PLAYER DAMAGED! Took {damage} damage! Health: {currentHealth}/{maxHealth} | Remaining: {currentHealth} HP");
+        
+        // Play damage sound through AudioManager
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayDamageSound();
+        }
+        
+        // Start damage flash effect
+        StartDamageFlash();
         
         // Notify systems
         OnDamageTaken?.Invoke(damage);
@@ -245,6 +273,34 @@ public class PlayerHealth : MonoBehaviour
         enableGroundedFallDeath = enabled;
         groundedFallDelay = delay;
         Debug.Log($"[PlayerHealth] Grounded fall death settings updated - Enabled: {enabled}, Delay: {delay}s");
+    }
+    
+    // Start the damage flash effect
+    void StartDamageFlash()
+    {
+        if (spriteRenderer != null && !isFlashing)
+        {
+            StartCoroutine(DamageFlashCoroutine());
+        }
+    }
+    
+    // Coroutine for damage flash effect
+    System.Collections.IEnumerator DamageFlashCoroutine()
+    {
+        if (spriteRenderer == null) yield break;
+        
+        isFlashing = true;
+        
+        // Flash red
+        spriteRenderer.color = damageFlashColor;
+        
+        // Wait for flash duration
+        yield return new WaitForSeconds(damageFlashDuration);
+        
+        // Return to original color
+        spriteRenderer.color = originalColor;
+        
+        isFlashing = false;
     }
     
 }

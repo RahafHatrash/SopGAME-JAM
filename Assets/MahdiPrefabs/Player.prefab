@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1644337646783583230}
   - component: {fileID: 5168825064047597584}
   - component: {fileID: -2343192907658750502}
-  - component: {fileID: 9876543210987654321}
+  - component: {fileID: 9223372036854775807}
   - component: {fileID: 1234567890123456789}
   m_Layer: 8
   m_Name: Player
@@ -184,6 +184,7 @@ MonoBehaviour:
   normalJumpForce: 4
   slimeJumpForce: 2
   animator: {fileID: 5168825064047597584}
+  attackCooldown: 0.5
   spriteRenderer: {fileID: 0}
   useMomentumMovement: 1
   autoMovementSpeed: 1.5
@@ -236,11 +237,9 @@ MonoBehaviour:
   useShootingAnimation: 1
   playerAnimator: {fileID: 0}
   shootTriggerName: isShooting
-  swordHitbox: {fileID: 0}
-  swordActiveTime: 0.12
-  swordCooldown: 0.6
-  swordParameterName: isHitting
-  icePrefab: {fileID: 728355088454414383, guid: 25ae2b5c66aa1914ab29d3fc9955e099, type: 3}
+  hittingParameterName: isHitting
+  hittingCooldown: 0.6
+  freezePrefab: {fileID: 0}
   iceSpeed: 0.5
   freezeTargetLayer:
     serializedVersion: 2
@@ -248,38 +247,8 @@ MonoBehaviour:
   freezeRange: 15
   freezeDuration: 2
   freezeCooldown: 1
---- !u!1 &8864402517691738511
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4148176351067726656}
-  m_Layer: 8
-  m_Name: ShootingPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4148176351067726656
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8864402517691738511}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.84, y: -0.44, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 248885112341900993}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &9876543210987654321
+  freezeHitsToKill: 2
+--- !u!61 &9223372036854775807
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -317,8 +286,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 3.6100001, y: 12.294187}
+    newSize: {x: 3.6100001, y: 12.294187}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -338,3 +307,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
+  deathSceneName: DieScene
+  deathDelay: 0
+  enableGroundedFallDeath: 1
+  groundedFallDelay: 1
+  damageFlashDuration: 0.3
+  damageFlashColor: {r: 1, g: 0, b: 0, a: 1}
+  hitSound: {fileID: 8300000, guid: 759e42f619db44040aa77173840f95db, type: 3}
+  hitSoundVolume: 0.91
+--- !u!1 &8864402517691738511
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4148176351067726656}
+  m_Layer: 8
+  m_Name: ShootingPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4148176351067726656
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8864402517691738511}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.84, y: -0.44, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 248885112341900993}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

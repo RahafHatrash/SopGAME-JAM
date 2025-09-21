@@ -1319,6 +1319,7 @@ MonoBehaviour:
   jumpSound: {fileID: 8300000, guid: 1358879289fbe454ca1058e8e3879aa8, type: 3}
   footstepSound: {fileID: 8300000, guid: 6e3efe40a0655044b87e966fbef6f301, type: 3}
   hitSound: {fileID: 8300000, guid: b5fd94448b9caa74b98d448ca5035106, type: 3}
+  damageSound: {fileID: 8300000, guid: 759e42f619db44040aa77173840f95db, type: 3}
   deathSound: {fileID: 8300000, guid: 14789b9781fa7b84caa42c9797d1f017, type: 3}
   shootSound: {fileID: 8300000, guid: 99ff3790e150680438bb88d38e18a442, type: 3}
   buttonClickSound: {fileID: 0}
@@ -1333,6 +1334,7 @@ MonoBehaviour:
   footstepVolume: 1
   jumpVolume: 0.5
   hitVolume: 0.7
+  damageVolume: 1
   shootVolume: 1
   deathVolume: 0.8
   pickupVolume: 0.5
@@ -1584,6 +1586,8 @@ MonoBehaviour:
   deathDelay: 0
   enableGroundedFallDeath: 1
   groundedFallDelay: 1
+  damageFlashDuration: 0.3
+  damageFlashColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &1516977693
 MonoBehaviour:
   m_ObjectHideFlags: 0

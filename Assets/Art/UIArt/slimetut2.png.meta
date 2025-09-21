@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 45c6021692886254d939979dc8df01f9
+guid: d5c58805faecf434ea6d231a32440926
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5544475461183255679
-    second: slimeTut_0
+      213: 4506077826420304084
+    second: slimetut2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 600
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -113,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: slimeTut_0
+      name: slimetut2_0
       rect:
         serializedVersion: 2
         x: 0
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 18b4d46a1f01e03b0800000000000000
-      internalID: -5544475461183255679
+      spriteID: 4d8eb0ea8edc88e30800000000000000
+      internalID: 4506077826420304084
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      slimeTut_0: -5544475461183255679
+      slimetut2_0: 4506077826420304084
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
