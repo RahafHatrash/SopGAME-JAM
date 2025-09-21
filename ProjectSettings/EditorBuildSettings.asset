@@ -9,25 +9,25 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
+    path: Assets/Scenes/FinalScenes/MainMenu.unity
     guid: be0605192c73bcc4e8ca126ac40434a7
   - enabled: 1
-    path: Assets/Scenes/Tutorial.unity
+    path: Assets/Scenes/FinalScenes/Tutorial.unity
     guid: 83e6ad83c1b69f94b892960a23d32bb2
   - enabled: 1
-    path: Assets/Scenes/CreditScene.unity
+    path: Assets/Scenes/FinalScenes/CreditScene.unity
     guid: 052b04534a354ba42a01a2b2ed801587
   - enabled: 1
-    path: Assets/Scenes/Hala'sSceneSKY.unity
+    path: Assets/Scenes/FinalScenes/Hala'sSceneSKY.unity
     guid: e9449d40b278cd54c8e8afb751bfcbd6
   - enabled: 1
-    path: Assets/Scenes/SewerOnFire.unity
+    path: Assets/Scenes/FinalScenes/SewerOnFire.unity
     guid: 7755f7eff34780543b50a0424ace7bab
   - enabled: 1
-    path: Assets/Scenes/Hala'sSceneSnow.unity
+    path: Assets/Scenes/FinalScenes/Hala'sSceneSnow.unity
     guid: e116190d38311d7409596d2bf5575759
   - enabled: 1
-    path: Assets/Scenes/DieScene.unity
+    path: Assets/Scenes/FinalScenes/DieScene.unity
     guid: b7ddcb95ba28bf74cab7983a14d1e707
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

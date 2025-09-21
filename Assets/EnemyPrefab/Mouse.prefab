@@ -121,7 +121,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.117789984, y: -1.3659254}
+  m_Offset: {x: -0.18145275, y: 0.013380051}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -131,7 +131,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 6.7239785, y: 3.3623474}
+  m_Size: {x: 12.029009, y: 6.1209583}
   m_EdgeRadius: 0
 --- !u!50 &4655761228478712528
 Rigidbody2D:
@@ -281,6 +281,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   damageToPlayer: 1
   baseXP: 5
+  isFrozen: 0
   groundTag: Ground
   playerTag: Player
   enemyTag: Enemy
