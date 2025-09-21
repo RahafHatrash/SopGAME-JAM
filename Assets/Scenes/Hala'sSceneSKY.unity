@@ -953,6 +953,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7327565379417576082, guid: 64af4761e9871ee45906e34ad23f7791, type: 3}
+      propertyPath: flashExcludedScenes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7327565379417576082, guid: 64af4761e9871ee45906e34ad23f7791, type: 3}
+      propertyPath: 'flashExcludedScenes.Array.data[0]'
+      value: DieScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 7327565379417576082, guid: 64af4761e9871ee45906e34ad23f7791, type: 3}
+      propertyPath: 'flashExcludedScenes.Array.data[1]'
+      value: MainMenu
+      objectReference: {fileID: 0}
     - target: {fileID: 7971430251945707703, guid: 64af4761e9871ee45906e34ad23f7791, type: 3}
       propertyPath: m_Name
       value: SceneTransitionManager 1
